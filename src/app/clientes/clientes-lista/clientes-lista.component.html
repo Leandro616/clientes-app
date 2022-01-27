@@ -1,0 +1,79 @@
+<h1 class="mt-4">Clientes</h1>
+<ol class="breadcrumb mb-4">
+   <li class="breadcrumb-item active">Consulta</li>
+</ol>
+<div class="container mt-5">
+   <div class="row">
+      <div class="col-md-12">
+         <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+            {{ mensagemSucesso }}
+         </div>
+         <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+            {{ mensagemErro }}
+         </div>
+      </div>
+   </div>
+
+   <button class="btn btn-warning mb-4" (click)="novoCadastro()">
+      <i class="fa fa-plus"></i>
+      Novo
+   </button>
+
+   <table class="table table-hover">
+      <thead>
+         <tr>
+            <th class="col-1">ID</th>
+            <th class="col-4">Nome</th>
+            <th class="col-3">CPF</th>
+            <th class="col-3">Data Cadastro</th>
+            <th class="col-1"></th>
+            <th class="col-1"></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.cpf }}</td>
+            <td>{{ cliente.dataCadastro }}</td>
+            <td><button class="btn btn-primary btn-sm"
+                  routerLink="/clientes/form/{{ cliente.id }}">
+               <i class="far fa-edit"></i>
+            </button></td>
+
+            <td><button class="btn btn-danger btn-sm" (click)="preparaDelecao(cliente)"
+                  data-bs-toggle="modal" data-bs-target="#modal-deletar">
+               <i class="far fa-trash-alt"></i>
+            </button></td>
+         </tr>
+      </tbody>
+   </table>
+
+   <!-- Modal -->
+   <div class="modal fade" id="modal-deletar" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <p *ngIf="clienteSelecinado">
+               Deseja excluir o/a cliente {{ clienteSelecinado.nome }}?
+            </p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="deletarCliente()"
+                  data-bs-dismiss="modal">
+               Excluir
+            </button>
+         </div>
+      </div>
+      </div>
+   </div>
+
+
+
+
+</div>

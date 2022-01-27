@@ -1,0 +1,98 @@
+<!-- Tipos de Data Binding do angular
+   1° Interpolação - {{ }}
+      Exemplo: {{ cliente.nome }}
+      É unidirecional: do componente para o template
+      A única que não precisa importar o FormsModule
+
+   2° Property Binding - [atributoHTML] ou bind-atributoHTML
+      Exemplo: <input type="text" name="nome" [value]="cliente.nome">
+      Exemplo: <input type="text" name="nome" bind-value="cliente.nome">
+      É unidirecional: do componente para o template
+
+   3° Event Binding -  (evento)
+      Exemplo: <button type="button" (click)="clicar()"></button>
+      Nesse caso teria uma função chamada clicar() no component
+      É unidirecional: do template para o component
+
+   4° Two-way data binding - [()]
+      Exemplo: <input type="text" name="nome" [(ngModel)]="cliente.nome">
+      É bidirecional: pode ser usada para receber do componente ou enviar
+      para o componente
+-->
+
+<h1 class="mt-4">Clientes</h1>
+<ol class="breadcrumb mb-4">
+   <li class="breadcrumb-item active" >
+      <!-- se tiver id aparece 'edição' se não 'cadastro' -->
+      {{ cliente.id ? 'Edição' : 'Cadastro'}}
+   </li>
+</ol>
+<div class="container mt-5">
+   <!-- Criando evento de submit do formulario -->
+   <form #clienteForm="ngForm" (ngSubmit)="onSubmit()">
+      <!-- Mensagens de erro ou sucesso -->
+      <div class="row">
+         <div class="col-md-12">
+            <div class="alert alert-success" role="alert" *ngIf="sucesso">
+               Cliente salvo/atualizado com sucesso!
+            </div>
+            <div class="alert alert-danger" role="alert" *ngFor="let erro of erros">
+               {{ erro }}
+            </div>
+         </div>
+      </div>
+      <div class="row" *ngIf="cliente.id">
+         <div class="col-md-6">
+            <div class="form-group">
+               <label>ID:</label>
+               <!-- Aqui foi usado o property binding porque não precisamos
+                  enviar essas informações ao component -->
+               <input type="number" class="form-control" name="id"
+                  [ngModel]="cliente.id" disabled>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="form-group">
+               <label>Data de cadastro:</label>
+               <input type="text" class="form-control" name="dataCadastro"
+                  [ngModel]="cliente.dataCadastro" disabled>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-6">
+            <div class="form-group">
+               <label>Nome: *</label>
+               <input type="text" class="form-control" name="nome"
+                  [(ngModel)]="cliente.nome">
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="form-group">
+               <label>CPF: *</label>
+               <input type="text" class="form-control" name="cpf"
+                  [(ngModel)]="cliente.cpf">
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-6">
+            <button type="submit" class="btn btn-success" *ngIf="!cliente.id">
+               <i class="fa fa-save"></i>
+               Salvar
+            </button>
+
+            <button type="submit" class="btn btn-primary" *ngIf="cliente.id">
+               <i class="fas fa-sync-alt"></i>
+               Atualizar
+            </button>
+
+            <button type="button" class="btn btn-danger ml-3"
+                  (click)="voltarParaListagem()">
+               <i class="fa fa-arrow-circle-left"></i>
+               Voltar
+            </button>
+         </div>
+      </div>
+   </form>
+</div>
